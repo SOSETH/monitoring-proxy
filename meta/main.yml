@@ -1,0 +1,14 @@
+---
+  dependencies:
+    - { role: haproxy }
+    - when: mon_forward_pki_enabled
+      role: local-ca
+      caname: "{{ mon_forward_pki_name }}"
+      both:
+        cert: "/etc/haproxy/pm-proxy-dual.crt"
+        key: "/etc/haproxy/pm-proxy-dual.key"
+        cn: "{{ mon_forward_hostname }}"
+      ca:
+        cert: "/etc/haproxy/pm-proxy-ca.crt"
+        crl: "/etc/haproxy/pm-proxy-crl.pem"
+      tags: certs

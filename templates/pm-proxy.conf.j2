@@ -1,0 +1,12 @@
+{% for host, config in mon_forward_items.iteritems() %}
+{% for port in config.ports %}
+frontend proxy-{{ host }}-{{ port.dest }}-front
+	bind :::{{ port.src }} v4v6 ssl crt /etc/haproxy/pm-proxy-full.pem ca-file /etc/haproxy/pm-proxy-ca.crt verify required
+	mode tcp
+	default_backend proxy-{{ host }}-{{ port.dest }}-backend
+
+backend proxy-{{ host }}-{{ port.dest }}-backend
+	mode tcp
+	server remote {{ config.dest }}:{{ port.dest }} ssl crt /etc/haproxy/pm-proxy-full.pem ca-file /etc/haproxy/pm-proxy-ca.crt verify required
+{% endfor %}
+{% endfor %}

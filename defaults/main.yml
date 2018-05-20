@@ -1,0 +1,8 @@
+# Use 'local-ca' to generate required certificates
+mon_forward_pki_enabled: True
+# How is the 'local-ca' instance called
+mon_forward_pki_name: "prometheus"
+# How is this host called
+mon_forward_hostname: "{{ ansible_fqdn }}"
+
+mon_forward_items: []

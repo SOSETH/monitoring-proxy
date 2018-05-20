@@ -1,0 +1,17 @@
+---
+  - name: Install HAproxy dropin
+    become: True
+    template:
+      src: pm-proxy.conf.j2
+      dest: /etc/haproxy/conf.d/70-pm-proxy.conf.j2
+      owner: root
+      group: root
+      mode: 0644
+    notify: restart haproxy
+
+
+  - name: Build haproxy SSL certificate (monitoring-proxy)
+    become: True
+    shell: cat /etc/haproxy/pm-proxy-dual.crt /etc/haproxy/pm-proxy-dual.key > /etc/haproxy/pm-proxy-full.pem
+    changed_when: False
+    notify: restart haproxy
